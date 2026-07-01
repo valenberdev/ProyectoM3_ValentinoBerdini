@@ -8,46 +8,44 @@
 <body>
   <div class="chat">
 
-    <header class="chat-header">
-      <button class="chat-header__toggle"
-              aria-label="Cambiar de personaje"
-              aria-expanded="false"
-              aria-controls="chat-sidebar">
-        
-      </button>
-      <div class="chat-header__avatar" aria-label="Avatar de Luffy">👒</div>
-      <h1 class="chat-header__name">Luffy</h1>
-    </header>
+    <div class="chat-content">
+      <header class="chat-header">
+        <button class="chat-header__toggle"
+                aria-label="Cambiar de personaje"
+                aria-expanded="false"
+                aria-controls="chat-sidebar">
+          ☰
+        </button>
+        <div class="chat-header__avatar" aria-label="Avatar de Luffy">👒</div>
+        <h1 class="chat-header__name">Luffy</h1>
+      </header>
 
-    <main class="chat-main">
-      <section class="chat-messages">
+      <main class="chat-main">
+        <section class="chat-messages">
 
-        <div class="chat-message chat-message--character">
-          <div class="chat-message__avatar">👒</div>
-          <div class="chat-message__bubble">¡Nakama! ¿Cómo estás hoy?</div>
-        </div>
+          <div class="chat-message chat-message--character">
+            <div class="chat-message__avatar">👒</div>
+            <div class="chat-message__bubble">¡Nakama! ¿Cómo estás hoy?</div>
+          </div>
 
-        <div class="chat-message chat-message--user">
-          <div class="chat-message__bubble">¡Muy bien! ¿Listo para la aventura?</div>
-        </div>
+          <div class="chat-message chat-message--user">
+            <div class="chat-message__bubble">¡Muy bien! ¿Listo para la aventura?</div>
+          </div>
 
-        <div class="chat-typing-indicator is-hidden">escribiendo…</div>
+          <div class="chat-typing-indicator is-hidden">escribiendo…</div>
 
-      </section>
-    </main>
+        </section>
+      </main>
 
-    <footer class="chat-footer">
-      <form class="chat-form">
-        <input type="text" class="chat-input__field" placeholder="Escribe un mensaje…" aria-label="Mensaje">
-        <button type="submit" class="chat-input__send" aria-label="Enviar mensaje">Enviar</button>
-      </form>
-    </footer>
+      <footer class="chat-footer">
+        <form class="chat-form">
+          <input type="text" class="chat-input__field" placeholder="Escribe un mensaje…" aria-label="Mensaje">
+          <button type="submit" class="chat-input__send" aria-label="Enviar mensaje">Enviar</button>
+        </form>
+      </footer>
+    </div>
 
-    <!-- chat.js — Al abrir/cerrar el drawer, sincronizar:
-         • toggle:  aria-expanded "true"/"false"
-         • sidebar: clase is-open
-         • overlay: clase is-open (mismo estado que el sidebar)
-         Además, cerrar con Escape.                                   -->
+    <!-- chat.js: agregar listener keydown para cerrar el drawer con Escape -->
     <aside class="chat-sidebar" id="chat-sidebar">
       <div class="chat-sidebar__header">Personajes</div>
       <div class="chat-sidebar__list">
@@ -66,7 +64,6 @@
       </div>
     </aside>
 
-    <!-- Overlay asociado al sidebar (#chat-sidebar): mismo estado de apertura -->
     <div class="chat-overlay"></div>
 
   </div>

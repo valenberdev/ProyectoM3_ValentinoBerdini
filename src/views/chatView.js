@@ -2,27 +2,31 @@ export default function chatView(container, currentCharacter, allCharacters) {
   container.innerHTML = ''
 
   const layout = document.createElement('div')
-  layout.className = 'chat-layout'
+  layout.className = 'chat'
 
   const sidebar = createSidebar(
     allCharacters.filter(c => c.id !== currentCharacter.id),
     currentCharacter.id
   )
+
+  const content = createContent(currentCharacter)
+
   const overlay = document.createElement('div')
   overlay.className = 'chat-overlay'
-  const main = createMain(currentCharacter)
 
-  layout.append(sidebar, overlay, main)
+  layout.append(sidebar, content, overlay)
   container.appendChild(layout)
 
-  const toggle = main.querySelector('.chat-header__toggle')
+  const toggle = content.querySelector('.chat-header__toggle')
   toggle.addEventListener('click', () => {
     if (window.innerWidth < 768) {
-      layout.classList.add('chat-layout--sidebar-open')
+      sidebar.classList.add('is-open')
+      overlay.classList.add('is-open')
     }
   })
   overlay.addEventListener('click', () => {
-    layout.classList.remove('chat-layout--sidebar-open')
+    sidebar.classList.remove('is-open')
+    overlay.classList.remove('is-open')
   })
 }
 
@@ -68,11 +72,14 @@ function createSidebar(characters) {
   return sidebar
 }
 
-function createMain(character) {
-  const main = document.createElement('div')
-  main.className = 'chat-main'
+function createContent(character) {
+  const content = document.createElement('div')
+  content.className = 'chat-content'
 
   const header = createHeader(character)
+
+  const main = document.createElement('div')
+  main.className = 'chat-main'
 
   const messages = document.createElement('div')
   messages.className = 'chat-messages'
@@ -97,39 +104,13 @@ function createMain(character) {
   sampleUser.appendChild(bubbleUser)
 
   messages.append(sampleCharacter, sampleUser)
+  main.appendChild(messages)
 
-  const inputArea = createInputArea()
+  const footer = document.createElement('footer')
+  footer.className = 'chat-footer'
 
-  main.append(header, messages, inputArea)
-  return main
-}
-
-function createHeader(character) {
-  const header = document.createElement('header')
-  header.className = 'chat-header'
-
-  const toggle = document.createElement('button')
-  toggle.className = 'chat-header__toggle'
-  toggle.setAttribute('aria-label', 'Abrir menú lateral')
-  toggle.innerHTML =
-    '<svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>'
-
-  const avatar = document.createElement('div')
-  avatar.className = 'chat-header__avatar'
-  avatar.style.background = stringToColor(character.name)
-  avatar.textContent = character.name.charAt(0).toUpperCase()
-
-  const name = document.createElement('h1')
-  name.className = 'chat-header__name'
-  name.textContent = character.name
-
-  header.append(toggle, avatar, name)
-  return header
-}
-
-function createInputArea() {
-  const container = document.createElement('div')
-  container.className = 'chat-input'
+  const form = document.createElement('form')
+  form.className = 'chat-form'
 
   const input = document.createElement('input')
   input.type = 'text'
@@ -142,6 +123,31 @@ function createInputArea() {
   send.innerHTML =
     '<svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>'
 
-  container.append(input, send)
-  return container
+  form.append(input, send)
+  footer.appendChild(form)
+
+  content.append(header, main, footer)
+  return content
+}
+
+function createHeader(character) {
+  const header = document.createElement('header')
+  header.className = 'chat-header'
+
+  const toggle = document.createElement('button')
+  toggle.className = 'chat-header__toggle'
+  toggle.setAttribute('aria-label', 'Abrir menú lateral')
+  toggle.textContent = '\u2630'
+
+  const avatar = document.createElement('div')
+  avatar.className = 'chat-header__avatar'
+  avatar.style.background = stringToColor(character.name)
+  avatar.textContent = character.name.charAt(0).toUpperCase()
+
+  const name = document.createElement('h1')
+  name.className = 'chat-header__name'
+  name.textContent = character.name
+
+  header.append(toggle, avatar, name)
+  return header
 }
