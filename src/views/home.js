@@ -1,6 +1,7 @@
 import characters from '../characters.js'
+import { ACTIVE_CHARACTER_KEY } from '../storage.js'
 
-export default function homeView(container) {
+export default function homeView(container, navigate) {
   container.innerHTML = ''
 
   const section = document.createElement('section')
@@ -51,6 +52,12 @@ export default function homeView(container) {
 
     inner.append(avatar, nombre, desc)
     card.appendChild(inner)
+
+    card.addEventListener('click', () => {
+      localStorage.setItem(ACTIVE_CHARACTER_KEY, char.id)
+      navigate('/chat')
+    })
+
     grid.appendChild(card)
   })
 

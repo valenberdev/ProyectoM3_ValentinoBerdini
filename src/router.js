@@ -1,8 +1,8 @@
 import homeView from './views/home.js'
-import chatView from './views/chat.js'
+import chatView from './views/chatView.js'
 import aboutView from './views/about.js'
 import characters, { getCharacterById } from './characters.js'
-
+import { ACTIVE_CHARACTER_KEY } from './storage.js'
 
 const routes = {
   '/home': homeView,
@@ -10,13 +10,14 @@ const routes = {
   '/about': aboutView,
 }
 
+const container = document.getElementById('app')
 
 function renderRoute(path) {
   const view = routes[path] || routes['/home']
-  const container = document.getElementById('app')
+  const resolvedPath = routes[path] ? path : '/home'
 
-  if (path === '/chat') {
-    const activeId = localStorage.getItem('activeCharacter')
+  if (resolvedPath === '/chat') {
+    const activeId = localStorage.getItem(ACTIVE_CHARACTER_KEY)
     const currentCharacter = getCharacterById(activeId)
 
     if (!currentCharacter) {
@@ -24,28 +25,33 @@ function renderRoute(path) {
       return
     }
 
-    chatView(container, currentCharacter, characters)
+    chatView(container, currentCharacter, characters, navigate)
     return
   }
 
-  view(container)
-}
-function navigate(path) {
-  // ¿Qué dos cosas tenés que hacer acá? (pensá: cambiar la URL sin recargar + actualizar lo que se ve)
+  view(container, navigate)
 }
 
-// Interceptar clicks en links internos
+export function navigate(path) {
+  window.history.pushState({}, '', path)
+  renderRoute(path)
+}
+
 document.addEventListener('click', (e) => {
-  // ¿Cómo detectás que el click fue en un <a> de navegación interna,
-  // y no en cualquier otro elemento de la página?
-  // Pista: buscá el <a> más cercano al elemento clickeado (closest)
+  const link = e.target.closest('a[data-link]')
+  if (!link) return
+  if (e.ctrlKey || e.metaKey || e.shiftKey || link.target === '_blank') return
+
+  e.preventDefault()
+  navigate(link.getAttribute('href'))
 })
 
-// Manejar back/forward del navegador
 window.addEventListener('popstate', () => {
-  // ¿Qué función ya definida arriba te sirve acá?
+  renderRoute(window.location.pathname)
 })
 
-// Render inicial al cargar la página
-// ¿Qué tenés que ejecutar apenas carga el script, para que la vista
-// correcta se muestre incluso si el usuario entra directo por URL (sin click)?
+export function initRouter() {
+  const initialPath = window.location.pathname === '/' ? '/home' : window.location.pathname
+  window.history.replaceState({}, '', initialPath)
+  renderRoute(initialPath)
+}
