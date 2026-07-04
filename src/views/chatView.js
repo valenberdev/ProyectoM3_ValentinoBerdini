@@ -4,10 +4,7 @@ export default function chatView(container, currentCharacter, allCharacters) {
   const layout = document.createElement('div')
   layout.className = 'chat'
 
-  const sidebar = createSidebar(
-    allCharacters.filter(c => c.id !== currentCharacter.id),
-    currentCharacter.id
-  )
+  const sidebar = createSidebar(allCharacters, currentCharacter.id)
 
   const content = createContent(currentCharacter)
 
@@ -19,28 +16,29 @@ export default function chatView(container, currentCharacter, allCharacters) {
 
   const toggle = content.querySelector('.chat-header__toggle')
   toggle.addEventListener('click', () => {
-    if (window.innerWidth < 768) {
-      sidebar.classList.add('is-open')
-      overlay.classList.add('is-open')
-    }
+    const isOpen = sidebar.classList.toggle('is-open')
+    overlay.classList.toggle('is-open')
+    toggle.setAttribute('aria-expanded', String(isOpen))
   })
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('is-open')
     overlay.classList.remove('is-open')
+    toggle.setAttribute('aria-expanded', 'false')
   })
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+      sidebar.classList.remove('is-open')
+      overlay.classList.remove('is-open')
+      toggle.setAttribute('aria-expanded', 'false')
+    }
+  })
+  // TODO: eliminar el listener de Escape cuando se implemente la limpieza de vistas en el router
 }
 
-function stringToColor(str) {
-  let hash = 0
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash)
-  }
-  return `hsl(${Math.abs(hash) % 360}, 45%, 50%)`
-}
-
-function createSidebar(characters) {
+function createSidebar(characters, activeId) {
   const sidebar = document.createElement('aside')
   sidebar.className = 'chat-sidebar'
+  sidebar.id = 'chat-sidebar'
 
   const header = document.createElement('div')
   header.className = 'chat-sidebar__header'
@@ -53,16 +51,30 @@ function createSidebar(characters) {
     const item = document.createElement('button')
     item.className = 'chat-sidebar__item'
     item.dataset.character = char.id
-    item.setAttribute('aria-label', `Conversar con ${char.name}`)
+    item.setAttribute('aria-label', `Conversar con ${char.nombre}`)
+
+    if (char.id === activeId) {
+      item.classList.add('chat-sidebar__item--active')
+      item.setAttribute('aria-current', 'true')
+    }
 
     const avatar = document.createElement('div')
     avatar.className = 'chat-sidebar__avatar'
-    avatar.style.background = stringToColor(char.name)
-    avatar.textContent = char.name.charAt(0).toUpperCase()
+    avatar.textContent = char.avatar
 
     const name = document.createElement('span')
     name.className = 'chat-sidebar__name'
-    name.textContent = char.name
+    name.textContent = char.nombre
+
+    item.addEventListener('click', () => {
+      if (char.id === activeId) return
+
+      // TODO: implementar cambio de personaje
+      // Necesita: referencia al container, allCharacters, y storage.js
+      // 1. Obtener el personaje desde allCharacters
+      // 2. cargar historial desde storage.js
+      // 3. llamar a chatView(container, nuevoPersonaje, allCharacters)
+    })
 
     item.append(avatar, name)
     list.appendChild(item)
@@ -89,8 +101,7 @@ function createContent(character) {
   sampleCharacter.className = 'chat-message chat-message--character'
   const avatarChar = document.createElement('div')
   avatarChar.className = 'chat-message__avatar'
-  avatarChar.style.background = stringToColor(character.name)
-  avatarChar.textContent = character.name.charAt(0).toUpperCase()
+  avatarChar.textContent = character.avatar
   const bubbleChar = document.createElement('div')
   bubbleChar.className = 'chat-message__bubble'
   bubbleChar.textContent = '¡Nakama! ¿Cómo estás hoy?'
@@ -137,16 +148,17 @@ function createHeader(character) {
   const toggle = document.createElement('button')
   toggle.className = 'chat-header__toggle'
   toggle.setAttribute('aria-label', 'Abrir menú lateral')
+  toggle.setAttribute('aria-expanded', 'false')
+  toggle.setAttribute('aria-controls', 'chat-sidebar')
   toggle.textContent = '\u2630'
 
   const avatar = document.createElement('div')
   avatar.className = 'chat-header__avatar'
-  avatar.style.background = stringToColor(character.name)
-  avatar.textContent = character.name.charAt(0).toUpperCase()
+  avatar.textContent = character.avatar
 
   const name = document.createElement('h1')
   name.className = 'chat-header__name'
-  name.textContent = character.name
+  name.textContent = character.nombre
 
   header.append(toggle, avatar, name)
   return header
