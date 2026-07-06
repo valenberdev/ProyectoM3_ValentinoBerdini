@@ -1,10 +1,12 @@
-export default function chatView(container, currentCharacter, allCharacters) {
+import { ACTIVE_CHARACTER_KEY } from "../storage.js"
+
+export default function chatView(container, currentCharacter, allCharacters, navigate) {
   container.innerHTML = ''
 
   const layout = document.createElement('div')
   layout.className = 'chat'
 
-  const sidebar = createSidebar(allCharacters, currentCharacter.id)
+  const sidebar = createSidebar(allCharacters, currentCharacter.id, container, navigate)
 
   const content = createContent(currentCharacter)
 
@@ -35,7 +37,7 @@ export default function chatView(container, currentCharacter, allCharacters) {
   // TODO: eliminar el listener de Escape cuando se implemente la limpieza de vistas en el router
 }
 
-function createSidebar(characters, activeId) {
+function createSidebar(characters, activeId, container, navigate) {
   const sidebar = document.createElement('aside')
   sidebar.className = 'chat-sidebar'
   sidebar.id = 'chat-sidebar'
@@ -68,12 +70,8 @@ function createSidebar(characters, activeId) {
 
     item.addEventListener('click', () => {
       if (char.id === activeId) return
-
-      // TODO: implementar cambio de personaje
-      // Necesita: referencia al container, allCharacters, y storage.js
-      // 1. Obtener el personaje desde allCharacters
-      // 2. cargar historial desde storage.js
-      // 3. llamar a chatView(container, nuevoPersonaje, allCharacters)
+      localStorage.setItem(ACTIVE_CHARACTER_KEY, char.id)
+      chatView(container, char, characters, navigate)
     })
 
     item.append(avatar, name)
