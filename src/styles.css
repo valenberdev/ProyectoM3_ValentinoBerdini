@@ -185,6 +185,12 @@ body {
   border-radius: 8px 8px 2px 8px;
 }
 
+.chat-message--error .chat-message__bubble {
+  background: #fdecea;
+  border: 1px solid #f5c6cb;
+  color: #9f3a3a;
+}
+
 /* ===== Typing indicator ===== */
 
 .chat-typing-indicator {

@@ -1,4 +1,5 @@
-import { ACTIVE_CHARACTER_KEY } from "../storage.js"
+import { ACTIVE_CHARACTER_KEY, getHistory } from "../storage.js"
+import { sendMessage, renderMessage } from "../chat.js"
 
 export default function chatView(container, currentCharacter, allCharacters, navigate) {
   container.innerHTML = ''
@@ -101,24 +102,31 @@ function createContent(character) {
   messages.className = 'chat-messages'
   messages.id = 'chat-messages'
 
-  const sampleCharacter = document.createElement('div')
-  sampleCharacter.className = 'chat-message chat-message--character'
-  const avatarChar = document.createElement('div')
-  avatarChar.className = 'chat-message__avatar'
-  avatarChar.textContent = character.avatar
-  const bubbleChar = document.createElement('div')
-  bubbleChar.className = 'chat-message__bubble'
-  bubbleChar.textContent = '¡Nakama! ¿Cómo estás hoy?'
-  sampleCharacter.append(avatarChar, bubbleChar)
+  const history = getHistory(character.id)
 
-  const sampleUser = document.createElement('div')
-  sampleUser.className = 'chat-message chat-message--user'
-  const bubbleUser = document.createElement('div')
-  bubbleUser.className = 'chat-message__bubble'
-  bubbleUser.textContent = '¡Muy bien! ¿Listo para la aventura?'
-  sampleUser.appendChild(bubbleUser)
+  if (history.length === 0) {
+    const welcomeMessages = {
+    luffy: '¡Yo! ¿Listo para una aventura? ¿De qué querés hablar?',
+    brook: 'Buenas noches... o buenos días, ¡según corresponda! ¿En qué puedo ayudarte? Yohoho!',
+    franky: '¡¡¡SÚPER!!! ¿Qué onda? ¿De qué querés charlar, muchacho/a?',
+  }
+    const welcomeMessage = {
+      role: 'character',
+      content: welcomeMessages[character.id],
+      timestamp: new Date().toISOString(),
+    }
+    renderMessage(welcomeMessage, character, messages)
+  } else {
+    history.forEach(msg => {
+      renderMessage(msg, character, messages)
+    })
+  }
 
-  messages.append(sampleCharacter, sampleUser)
+  const typingIndicator = document.createElement('div')
+  typingIndicator.className = 'chat-typing-indicator is-hidden'
+  typingIndicator.textContent = 'escribiendo…'
+  messages.appendChild(typingIndicator)
+
   main.appendChild(messages)
 
   const footer = document.createElement('footer')
@@ -129,6 +137,7 @@ function createContent(character) {
 
   const input = document.createElement('input')
   input.type = 'text'
+  input.id = 'chat-input'
   input.className = 'chat-input__field'
   input.placeholder = 'Escribe un mensaje…'
 
@@ -142,6 +151,15 @@ function createContent(character) {
   footer.appendChild(form)
 
   content.append(header, main, footer)
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const message = input.value.trim()
+    if (!message) return
+    input.value = ''
+    await sendMessage(message, character, messages)
+  })
+
   return content
 }
 
