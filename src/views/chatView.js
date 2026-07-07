@@ -3,6 +3,10 @@ import { ACTIVE_CHARACTER_KEY } from "../storage.js"
 export default function chatView(container, currentCharacter, allCharacters, navigate) {
   container.innerHTML = ''
 
+  if (window.__chatEscapeHandler) {
+    document.removeEventListener('keydown', window.__chatEscapeHandler)
+  }
+
   const layout = document.createElement('div')
   layout.className = 'chat'
 
@@ -27,14 +31,16 @@ export default function chatView(container, currentCharacter, allCharacters, nav
     overlay.classList.remove('is-open')
     toggle.setAttribute('aria-expanded', 'false')
   })
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
-      sidebar.classList.remove('is-open')
-      overlay.classList.remove('is-open')
-      toggle.setAttribute('aria-expanded', 'false')
-    }
-  })
-  // TODO: eliminar el listener de Escape cuando se implemente la limpieza de vistas en el router
+  const escapeHandler = (e) => {
+  if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+    sidebar.classList.remove('is-open')
+    overlay.classList.remove('is-open')
+    toggle.setAttribute('aria-expanded', 'false')
+  }
+}
+document.addEventListener('keydown', escapeHandler)
+window.__chatEscapeHandler = escapeHandler
+// TODO: reemplazar este parche con un sistema real de limpieza de vistas en el router)
 }
 
 function createSidebar(characters, activeId, container, navigate) {
