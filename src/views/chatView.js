@@ -1,5 +1,6 @@
 import { ACTIVE_CHARACTER_KEY, getHistory } from "../storage.js"
 import { sendMessage, renderMessage } from "../chat.js"
+import { renderNav } from "../nav.js"
 
 export default function chatView(container, currentCharacter, allCharacters, navigate) {
   container.innerHTML = ''
@@ -19,7 +20,12 @@ export default function chatView(container, currentCharacter, allCharacters, nav
   overlay.className = 'chat-overlay'
 
   layout.append(sidebar, content, overlay)
-  container.appendChild(layout)
+
+  const bottomNav = document.createElement('div')
+  bottomNav.className = 'chat-bottom-nav'
+  renderNav(bottomNav, window.location.pathname)
+
+  container.append(layout, bottomNav)
 
   const toggle = content.querySelector('.chat-header__toggle')
   toggle.addEventListener('click', () => {
@@ -182,6 +188,10 @@ function createHeader(character) {
   name.className = 'chat-header__name'
   name.textContent = character.nombre
 
-  header.append(toggle, avatar, name)
+  const navContainer = document.createElement('div')
+  navContainer.className = 'chat-header__nav'
+  renderNav(navContainer, window.location.pathname)
+
+  header.append(toggle, avatar, name, navContainer)
   return header
 }

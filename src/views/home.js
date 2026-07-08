@@ -1,5 +1,6 @@
 import characters from '../characters.js'
 import { ACTIVE_CHARACTER_KEY } from '../storage.js'
+import { renderNav } from '../nav.js'
 
 export default function homeView(container, navigate) {
   container.innerHTML = ''
@@ -13,6 +14,7 @@ export default function homeView(container, navigate) {
 
   const header = document.createElement('header')
   header.className = 'home-header'
+  renderNav(header, window.location.pathname)
 
   const title = document.createElement('h1')
   title.className = 'home-header__title'

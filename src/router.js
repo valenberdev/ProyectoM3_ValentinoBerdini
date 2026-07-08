@@ -12,23 +12,36 @@ const routes = {
 
 const container = document.getElementById('app')
 
-function renderRoute(path) {
-  const view = routes[path] || routes['/home']
+function getActiveCharacterOrRedirect() {
+  const activeId = localStorage.getItem(ACTIVE_CHARACTER_KEY)
+  const currentCharacter = getCharacterById(activeId)
+
+  if (!currentCharacter) {
+    navigate('/home')
+    return null
+  }
+
+  return currentCharacter
+}
+
+ function renderRoute(path) {
   const resolvedPath = routes[path] ? path : '/home'
 
   if (resolvedPath === '/chat') {
-    const activeId = localStorage.getItem(ACTIVE_CHARACTER_KEY)
-    const currentCharacter = getCharacterById(activeId)
-
-    if (!currentCharacter) {
-      navigate('/home')
-      return
-    }
-
+    const currentCharacter = getActiveCharacterOrRedirect()
+    if (!currentCharacter) return
     chatView(container, currentCharacter, characters, navigate)
     return
   }
 
+  if (resolvedPath === '/about') {
+    const currentCharacter = getActiveCharacterOrRedirect()
+    if (!currentCharacter) return
+    aboutView(container, currentCharacter, navigate)
+    return
+  }
+
+  const view = routes[resolvedPath]
   view(container, navigate)
 }
 
