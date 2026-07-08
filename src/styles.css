@@ -10,6 +10,7 @@
   --color-text-secondary: #5f6b7a;
   --color-input-bg: #ece0c4;
   --color-input-border: #ddcda0;
+  --color-on-dark: #fffdf7;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 1px 4px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -18,6 +19,20 @@
   --header-height: 56px;
   --bottom-nav-height: 56px;
   --sidebar-width: 280px;
+}
+
+[data-theme='dark'] {
+  --color-primary: #d4a017;
+  --color-primary-dark: #b8860f;
+  --color-header: #060f1a;
+  --color-bg: #16232f;
+  --color-surface: #1f2f3d;
+  --color-user-msg: #3a3320;
+  --color-character-msg: #26374a;
+  --color-text: #ece6d9;
+  --color-text-secondary: #a3aebb;
+  --color-input-bg: #223243;
+  --color-input-border: #33475c;
 }
 
 * {
@@ -33,6 +48,16 @@ body {
     Ubuntu, Cantarell, sans-serif;
   background: var(--color-bg);
   color: var(--color-text);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.chat-header,
+.chat-messages,
+.chat-form,
+.chat-sidebar__header,
+.chat-message__bubble,
+.app-nav {
+  transition: background-color 0.2s, color 0.2s;
 }
 
 /* ===== Utilities ===== */
@@ -69,7 +94,7 @@ body {
 }
 
 .app-nav a:hover {
-  color: var(--color-surface);
+  color: var(--color-on-dark);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -87,6 +112,28 @@ body {
   height: 3px;
   background: var(--color-primary);
   border-radius: 0 0 3px 3px;
+}
+
+.app-nav__theme-toggle {
+  flex: none;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 8px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.app-nav__theme-toggle:hover {
+  color: var(--color-on-dark);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* ===== Layout (mobile) ===== */
@@ -119,7 +166,7 @@ body {
   height: var(--header-height);
   padding: 0 16px;
   background: var(--color-header);
-  color: var(--color-surface);
+  color: var(--color-on-dark);
   flex-shrink: 0;
   z-index: 10;
 }
@@ -132,7 +179,7 @@ body {
   height: 40px;
   border: none;
   background: transparent;
-  color: var(--color-surface);
+  color: var(--color-on-dark);
   cursor: pointer;
   border-radius: 50%;
   flex-shrink: 0;
@@ -324,7 +371,7 @@ body {
   font-family: inherit;
   outline: none;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.15s;
+  transition: box-shadow 0.15s, background-color 0.2s, color 0.2s;
 }
 
 .chat-input__field:focus {
@@ -373,7 +420,7 @@ body {
   display: flex;
   flex-direction: column;
   transform: translateX(-100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.2s, color 0.2s;
 }
 
 .chat-sidebar.is-open {
@@ -386,7 +433,7 @@ body {
   align-items: center;
   padding: 0 20px;
   background: var(--color-header);
-  color: var(--color-surface);
+  color: var(--color-on-dark);
   font-size: 18px;
   font-weight: 600;
   flex-shrink: 0;
@@ -532,7 +579,7 @@ body {
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   font-family: inherit;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s, background-color 0.2s, color 0.2s;
 }
 
 .character-card__inner {
@@ -613,7 +660,7 @@ body {
 .about h1 {
   font-size: 22px;
   font-weight: 700;
-  color: var(--color-header);
+  color: var(--color-primary);
 }
 
 .about > p {
@@ -683,6 +730,18 @@ body {
     display: none;
   }
 
+  .app-nav__theme-toggle {
+    width: 36px;
+    height: 36px;
+    margin: 0 0 0 4px;
+    color: var(--color-text-secondary);
+  }
+
+  .app-nav__theme-toggle:hover {
+    background: var(--color-input-bg);
+    color: var(--color-text);
+  }
+
   /* Chat header keeps a dark background, so its nav needs light-on-dark colors */
   .chat-header__nav {
     display: block;
@@ -699,12 +758,21 @@ body {
 
   .chat-header__nav .app-nav a:hover {
     background: rgba(255, 255, 255, 0.12);
-    color: var(--color-surface);
+    color: var(--color-on-dark);
   }
 
   .chat-header__nav .app-nav__link--active {
     color: var(--color-primary);
     background: rgba(255, 255, 255, 0.15);
+  }
+
+  .chat-header__nav .app-nav__theme-toggle {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .chat-header__nav .app-nav__theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-on-dark);
   }
 
   .chat {
