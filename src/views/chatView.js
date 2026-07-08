@@ -53,7 +53,6 @@ export default function chatView(container, currentCharacter, allCharacters, nav
 }
 document.addEventListener('keydown', escapeHandler)
 window.__chatEscapeHandler = escapeHandler
-// TODO: reemplazar este parche con un sistema real de limpieza de vistas en el router)
 }
 
 function createSidebar(characters, activeId, container, navigate) {

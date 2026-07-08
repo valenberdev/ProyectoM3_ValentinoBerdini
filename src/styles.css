@@ -45,11 +45,20 @@
 html,
 body {
   height: 100%;
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, sans-serif;
   background: var(--color-bg);
   color: var(--color-text);
   transition: background-color 0.2s, color 0.2s;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-header,
@@ -571,9 +580,9 @@ body {
 .home {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100%;
   width: 100%;
+  overflow-y: auto;
 }
 
 .home-main {
@@ -684,6 +693,7 @@ body {
 @media (hover: hover) {
   .character-card:hover .character-card__description {
     -webkit-line-clamp: unset;
+    line-clamp: unset;
     display: block;
     overflow: visible;
   }
@@ -694,16 +704,21 @@ body {
 .app-header {
   display: flex;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .about {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   gap: 16px;
   max-width: 640px;
   margin: 0 auto;
   padding: 24px 20px;
   padding-bottom: calc(24px + var(--bottom-nav-height));
+  width: 100%;
 }
 
 .about h1 {

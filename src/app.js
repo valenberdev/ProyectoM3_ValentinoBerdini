@@ -1,4 +1,5 @@
 import { initRouter } from './router.js'
+import { initTheme } from './nav.js'
 
 function setRealViewportHeight() {
   if (!window.visualViewport) return
@@ -11,4 +12,5 @@ if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', setRealViewportHeight)
 }
 
+initTheme()
 initRouter()
