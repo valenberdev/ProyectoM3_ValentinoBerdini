@@ -7,9 +7,14 @@ function setRealViewportHeight() {
   document.documentElement.style.setProperty('--real-vh', `${vh}px`)
 }
 
+function resetNativeScroll() {
+  window.scrollTo(0, 0)
+}
+
 if (window.visualViewport) {
   setRealViewportHeight()
   window.visualViewport.addEventListener('resize', setRealViewportHeight)
+  window.visualViewport.addEventListener('scroll', resetNativeScroll)
 }
 
 initTheme()
