@@ -40,9 +40,10 @@ export default function homeView(container, navigate) {
     const inner = document.createElement('div')
     inner.className = 'character-card__inner'
 
-    const avatar = document.createElement('span')
+    const avatar = document.createElement('img')
     avatar.className = 'character-card__avatar'
-    avatar.textContent = char.avatar
+    avatar.src = char.avatar
+    avatar.alt = char.nombre
 
     const nombre = document.createElement('span')
     nombre.className = 'character-card__name'

@@ -2,6 +2,12 @@ import { ACTIVE_CHARACTER_KEY, getHistory } from "../storage.js"
 import { sendMessage, renderMessage } from "../chat.js"
 import { renderNav } from "../nav.js"
 
+const WELCOME_MESSAGES = {
+  luffy: '¡Yo! ¿Listo para una aventura? ¿De qué querés hablar?',
+  brook: 'Buenas noches... o buenos días, ¡según corresponda! ¿En qué puedo ayudarte? Yohoho!',
+  franky: '¡¡¡SÚPER!!! ¿Qué onda? ¿De qué querés charlar, muchacho/a?',
+}
+
 export default function chatView(container, currentCharacter, allCharacters, navigate) {
   container.innerHTML = ''
 
@@ -73,9 +79,10 @@ function createSidebar(characters, activeId, container, navigate) {
       item.setAttribute('aria-current', 'true')
     }
 
-    const avatar = document.createElement('div')
+    const avatar = document.createElement('img')
     avatar.className = 'chat-sidebar__avatar'
-    avatar.textContent = char.avatar
+    avatar.src = char.avatar
+    avatar.alt = char.nombre
 
     const name = document.createElement('span')
     name.className = 'chat-sidebar__name'
@@ -111,17 +118,7 @@ function createContent(character) {
   const history = getHistory(character.id)
 
   if (history.length === 0) {
-    const welcomeMessages = {
-    luffy: '¡Yo! ¿Listo para una aventura? ¿De qué querés hablar?',
-    brook: 'Buenas noches... o buenos días, ¡según corresponda! ¿En qué puedo ayudarte? Yohoho!',
-    franky: '¡¡¡SÚPER!!! ¿Qué onda? ¿De qué querés charlar, muchacho/a?',
-  }
-    const welcomeMessage = {
-      role: 'character',
-      content: welcomeMessages[character.id],
-      timestamp: new Date().toISOString(),
-    }
-    renderMessage(welcomeMessage, character, messages)
+    messages.appendChild(createEmptyState(character))
   } else {
     history.forEach(msg => {
       renderMessage(msg, character, messages)
@@ -169,6 +166,27 @@ function createContent(character) {
   return content
 }
 
+function createEmptyState(character) {
+  const empty = document.createElement('div')
+  empty.className = 'chat-empty-state'
+
+  const avatar = document.createElement('img')
+  avatar.className = 'chat-empty-state__avatar'
+  avatar.src = character.avatar
+  avatar.alt = character.nombre
+
+  const title = document.createElement('h2')
+  title.className = 'chat-empty-state__title'
+  title.textContent = `Hola, soy ${character.nombre}`
+
+  const subtitle = document.createElement('p')
+  subtitle.className = 'chat-empty-state__subtitle'
+  subtitle.textContent = WELCOME_MESSAGES[character.id]
+
+  empty.append(avatar, title, subtitle)
+  return empty
+}
+
 function createHeader(character) {
   const header = document.createElement('header')
   header.className = 'chat-header'
@@ -180,9 +198,10 @@ function createHeader(character) {
   toggle.setAttribute('aria-controls', 'chat-sidebar')
   toggle.textContent = '\u2630'
 
-  const avatar = document.createElement('div')
+  const avatar = document.createElement('img')
   avatar.className = 'chat-header__avatar'
-  avatar.textContent = character.avatar
+  avatar.src = character.avatar
+  avatar.alt = character.nombre
 
   const name = document.createElement('h1')
   name.className = 'chat-header__name'

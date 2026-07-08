@@ -2,6 +2,9 @@ import { saveMessage, getHistory } from './storage.js'
 import { toGeminiFormat } from './utils.js'
 
 export async function sendMessage(content, currentCharacter, messagesContainer) {
+  const emptyState = messagesContainer.querySelector('.chat-empty-state')
+  if (emptyState) emptyState.remove()
+
   const userMessage = {
     role: 'user',
     content,
@@ -57,9 +60,10 @@ export function renderMessage(message, currentCharacter, container) {
   messageElement.className = `chat-message ${roleClass}`
 
   if (message.role === 'character') {
-    const avatar = document.createElement('div')
+    const avatar = document.createElement('img')
     avatar.className = 'chat-message__avatar'
-    avatar.textContent = currentCharacter.avatar
+    avatar.src = currentCharacter.avatar
+    avatar.alt = currentCharacter.nombre
     messageElement.appendChild(avatar)
   }
 
