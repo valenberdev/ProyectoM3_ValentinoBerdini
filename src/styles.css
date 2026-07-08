@@ -152,6 +152,10 @@ body {
   padding-bottom: var(--bottom-nav-height);
 }
 
+.is-keyboard-open .chat {
+  padding-bottom: 0;
+}
+
 /* ===== Content wrapper ===== */
 
 .chat-content {

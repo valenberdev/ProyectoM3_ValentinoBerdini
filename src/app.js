@@ -5,6 +5,9 @@ function setRealViewportHeight() {
   if (!window.visualViewport) return
   const vh = window.visualViewport.height
   document.documentElement.style.setProperty('--real-vh', `${vh}px`)
+
+  const keyboardOpen = window.innerHeight - vh > 150
+  document.documentElement.classList.toggle('is-keyboard-open', keyboardOpen)
 }
 
 function resetNativeScroll() {
