@@ -8,10 +8,10 @@ export async function sendMessage(content, currentCharacter, messagesContainer) 
     timestamp: new Date().toISOString(),
   }
   saveMessage(currentCharacter.id, userMessage)
-
   renderMessage(userMessage, currentCharacter, messagesContainer)
 
   const typingIndicator = messagesContainer.querySelector('.chat-typing-indicator')
+  messagesContainer.appendChild(typingIndicator) // lo mueve al final, debajo del último mensaje
   typingIndicator.classList.remove('is-hidden')
 
   try {
