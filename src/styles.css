@@ -137,6 +137,7 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  height: var(--real-vh, 100dvh);
   width: 100%;
   position: relative;
   padding-bottom: var(--bottom-nav-height);
