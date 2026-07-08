@@ -105,8 +105,6 @@ Esto corre la suite completa una sola vez y muestra el resultado. Los tests cubr
 
 ## Capturas de pantalla
 
-*(Agregar acá las capturas de la aplicación funcionando: galería de personajes, chat con respuesta real de la IA, vista de información — en al menos 3 tamaños: mobile, tablet y desktop)*
-
 | Vista | Mobile | Tablet | Desktop |
 |---|---|---|---|
 | Galería (Home) | ![captura_mobile](/src/assets/Captura%20de%20pantalla%202026-07-08%20144550.png) | ![captura_tablet](/src/assets/Captura%20de%20pantalla%202026-07-08%20145003.png) | ![captura_desktop](/src/assets/Captura%20de%20pantalla%202026-07-08%20145102.png) |

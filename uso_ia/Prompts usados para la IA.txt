@@ -1,0 +1,548 @@
+// Prompt para diseño de chatView//
+Modo de trabajo:
+
+- Priorizá mantener la arquitectura existente del proyecto por encima de generar una solución nueva. Si existen varias formas de implementar una funcionalidad, elegí siempre la que requiera la menor cantidad de cambios en el código ya existente.
+- Antes de modificar cualquier archivo, explicá qué archivos pensás editar y por qué.
+- Solo tenés permitido modificar `src/views/chatView.js` y `src/styles.css`.
+- Si considerás necesario modificar cualquier otro archivo del proyecto, detenete y pedime autorización antes de hacerlo.
+- No cambies la arquitectura existente del proyecto.
+- No crees archivos nuevos.
+- No elimines archivos existentes.
+
+---
+
+Necesito que implementes únicamente la vista `chatView.js` y los estilos correspondientes en `styles.css`.
+
+## Contexto del proyecto
+
+Es una aplicación SPA (Single Page Application).
+
+La navegación se realiza mediante `pushState` y `popState`, por lo que esta vista debe ser completamente compatible con ese sistema y no debe modificar la lógica del router ni la arquitectura del proyecto.
+
+La estructura del proyecto es la siguiente:
+
+project-root/
+├── api/
+│   └── gemini.js
+│
+├── src/
+│   ├── index.html
+│   ├── styles.css
+│   ├── app.js
+│   ├── router.js
+│   ├── characters.js
+│   ├── storage.js
+│   ├── chat.js
+│   ├── utils.js
+│   └── views/
+│       ├── home.js
+│       ├── chatView.js
+│       └── about.js
+│
+├── tests/
+│   ├── characters.test.js
+│   ├── storage.test.js
+│   ├── utils.test.js
+│   └── router.test.js
+│
+├── .env.example
+├── .gitignore
+├── package.json
+└── README.md
+
+Respetá esta estructura del proyecto y el estilo de código existente.
+
+No crees archivos nuevos ni modifiques otros archivos, salvo:
+
+- `src/views/chatView.js`
+- `src/styles.css`
+
+## Contexto funcional
+
+La aplicación consiste en hablar con personajes ficticios.
+
+Los personajes disponibles son:
+
+- Luffy
+- Brook
+- Franky
+
+Cada personaje tendrá su propio chat.
+
+El nombre, avatar y demás datos del personaje deben poder cambiar dinámicamente según el personaje recibido por la vista.
+
+No hardcodees únicamente a Luffy. La misma vista debe servir para los tres personajes.
+
+## Diseño
+
+Quiero una interfaz moderna, limpia y atractiva, inspirada en WhatsApp (sin copiarla exactamente).
+
+Debe utilizar únicamente:
+
+- HTML generado desde JavaScript.
+- CSS puro.
+- Sin Bootstrap.
+- Sin Tailwind.
+- Sin Material UI.
+- Sin ninguna otra librería de estilos.
+
+## Responsive
+
+Seguir Mobile First.
+
+Breakpoints:
+
+- Mobile: desde 375px.
+- Tablet: desde 768px.
+- Desktop: desde 1024px.
+
+En móvil el chat debe ocupar prácticamente toda la pantalla.
+
+El sidebar puede adaptarse o reducirse.
+
+En tablet y desktop el sidebar debe permanecer visible.
+
+## La vista debe contener
+
+### Header
+
+- Avatar del personaje.
+- Nombre del personaje.
+
+### Sidebar
+
+- Lista de los demás personajes.
+- Diseño agradable.
+- Preparado para cambiar de conversación.
+
+### Área principal
+
+- Zona donde aparecerán los mensajes.
+- Diferenciar visualmente los mensajes del usuario y del personaje.
+- Debe permitir scroll cuando haya muchos mensajes.
+
+### Área inferior
+
+- Input para escribir.
+- Botón para enviar.
+
+## Código
+
+- Todo el HTML debe generarse desde `chatView.js`.
+- Todos los estilos deben ir únicamente en `styles.css`.
+- Utilizá nombres de clases claros y consistentes.
+- Escribí código limpio, modular y fácil de mantener.
+- Agregá comentarios solo cuando realmente aporten claridad.
+
+## Muy importante
+
+Por ahora solo quiero la interfaz (UI).
+
+No implementes todavía:
+
+- la lógica para enviar mensajes;
+- la conexión con Gemini;
+- llamadas a APIs;
+- almacenamiento;
+- manejo del historial;
+- funcionalidad del sidebar;
+- lógica de navegación.
+
+Solo dejá preparada la estructura para integrar esas funcionalidades más adelante.
+
+Si necesitás asumir algo sobre la arquitectura del proyecto, preguntame antes de modificarla.
+
+## Antes de generar el código
+
+Antes de escribir el código:
+
+1. Analizá la estructura del proyecto y explicá brevemente cómo pensás integrar `chatView.js` con el resto de la aplicación sin romper la arquitectura existente.
+
+2. Indicá exactamente qué archivos vas a modificar.
+
+3. Verificá que tu solución respete el principio de responsabilidad única y que no duplique lógica que ya debería pertenecer a:
+
+- `router.js`
+- `chat.js`
+- `storage.js`
+- `characters.js`
+- `utils.js`
+
+4. Confirmá que únicamente vas a modificar:
+
+- `src/views/chatView.js`
+- `src/styles.css`
+
+5. No comiences a escribir código hasta haber terminado ese análisis.
+
+6. Después del análisis, generá el código completo.
+
+7. Al finalizar, explicá brevemente las decisiones de diseño y estructura que tomaste.
+
+//
+
+// Prompt para html//
+
+Necesito que armes únicamente el `index.html` de la interfaz de un chat.
+
+## Objetivo
+
+Crear solo la estructura semántica en HTML.
+
+No quiero CSS todavía.
+
+No quiero JavaScript.
+
+No quiero lógica.
+
+## Contexto
+
+Es un chat con personajes ficticios (Luffy, Brook y Franky de One Piece).
+
+Más adelante esta estructura se convertirá en una vista de una SPA, pero por ahora solo necesito el HTML.
+
+## La estructura debe contener
+
+### Header
+
+- Avatar del personaje.
+- Nombre del personaje.
+
+### Main
+
+- Contenedor principal del chat.
+- Lista o contenedor para los mensajes.
+- La estructura debe quedar preparada para distinguir mensajes del usuario y del personaje mediante clases CSS.
+
+### Footer
+
+- Formulario.
+- Input para escribir.
+- Botón para enviar.
+
+## Requisitos
+
+- Utilizá HTML5 semántico.
+- Empleá etiquetas como `header`, `main`, `footer`, `section`, `form`, etc., cuando corresponda.
+- Asigná nombres de clases claros y consistentes pensando en el CSS que se implementará después.
+- No agregues estilos inline.
+- No agregues JavaScript.
+- No agregues contenido innecesario.
+
+## Antes de generar el código
+
+1. Explicá brevemente la estructura elegida.
+2. Después generá el HTML completo.
+
+//
+
+Necesito que realices únicamente las siguientes correcciones sobre el HTML ya existente. No reestructures la vista completa ni cambies la arquitectura actual salvo que alguno de los puntos lo requiera.
+
+Antes de modificar el código:
+
+1. Explicá brevemente qué cambios vas a realizar.
+2. Confirmá que únicamente vas a modificar lo necesario para cumplir esta lista.
+3. Después aplicá las correcciones.
+
+## Correcciones
+
+### 1. Preparar el formulario para el submit
+
+No implementes todavía la lógica del envío.
+
+Sin embargo, dejá la estructura preparada para que, cuando se implemente `chat.js`, el listener del evento `submit` del formulario pueda ejecutar:
+
+```js
+e.preventDefault();
+```
+
+como primera línea.
+
+La estructura del formulario debe ser la adecuada para trabajar con el evento `submit` y permitir enviar el mensaje presionando Enter sin requerir cambios en el HTML.
+
+---
+
+### 2. Agregar el indicador de "escribiendo..."
+
+Agregá un nodo específico para el indicador de escritura.
+
+Debe estar dentro de la zona del chat (o inmediatamente después de la lista de mensajes si considerás que mejora el layout).
+
+Utilizá una clase clara, por ejemplo:
+
+- `chat-message--typing`
+- o `chat-typing-indicator`
+
+Elegí una de estas dos estrategias y explicá brevemente por qué:
+
+- el nodo existe desde el HTML y comienza oculto para luego mostrarse mediante una clase (`hidden`, `is-hidden`, etc.);
+- o el nodo será creado y eliminado dinámicamente desde JavaScript.
+
+No implementes todavía la lógica de mostrarlo u ocultarlo.
+
+---
+
+### 3. Agregar la estructura del drawer de personajes
+
+Prepará el HTML para el selector de personajes.
+
+Debe incluir:
+
+- un botón visible en el header pensado para mobile;
+- `aria-label` descriptivo (por ejemplo "Cambiar de personaje");
+- `aria-expanded="false"` preparado para ser actualizado desde JavaScript;
+- un contenedor para el drawer que contenga los tres personajes;
+- un overlay independiente para cerrar el drawer mediante JavaScript.
+
+Importante:
+
+No dupliques la estructura para mobile y desktop.
+
+Debe existir un único bloque HTML que posteriormente será reposicionado mediante CSS para comportarse como drawer en mobile y como sidebar permanente desde 768px en adelante.
+
+---
+
+### 4. Reemplazar el avatar temporal
+
+Reemplazá el contenido `"L"` utilizado como avatar por el emoji correspondiente:
+
+👒
+
+Debe aplicarse tanto en:
+
+- `chat-header__avatar`
+- `chat-message__avatar`
+
+para mantener consistencia con `characters.js`.
+
+---
+
+### 5. Ajustar la accesibilidad del avatar
+
+Si el avatar continúa siendo un emoji dentro de un `div`, dejá únicamente un único `aria-label` en el contenedor.
+
+No dupliques información accesible innecesariamente.
+
+La estructura debe quedar preparada para que, si más adelante se reemplaza el emoji por una imagen (`<img>`), el texto alternativo pueda migrarse al atributo `alt` sin modificar el resto del HTML.
+
+---
+
+## Importante
+
+- No agregues CSS.
+- No agregues JavaScript.
+- No cambies nombres de clases existentes salvo que sea estrictamente necesario.
+- No reestructures toda la vista.
+- Realizá únicamente las modificaciones necesarias para cumplir los puntos anteriores.
+- Al finalizar, explicá brevemente qué cambios realizaste y por qué.
+
+//
+
+//Prompt para Home//
+
+Necesito implementar la vista **Home** de la aplicación.
+
+Antes de escribir cualquier código, quiero que analices las decisiones de accesibilidad y de estructura. No empieces directamente por el HTML.
+
+## Modo de trabajo
+
+- Antes de modificar cualquier archivo, indicá cuál vas a editar y por qué.
+- Solo podés modificar `src/views/home.js`.
+- Si considerás necesario modificar cualquier otro archivo, detenete y pedime autorización.
+- No agregues CSS.
+- No agregues JavaScript adicional.
+- No modifiques la arquitectura existente del proyecto.
+
+---
+
+# 1. Analizar la accesibilidad de las tarjetas
+
+Cada personaje se mostrará como una tarjeta implementada mediante un:
+
+```html
+<button class="character-card">
+```
+
+Cada tarjeta contendrá:
+
+- avatar (emoji)
+- nombre
+- descripción
+
+Antes de escribir el HTML, analizá si corresponde agregar un `aria-label` al botón.
+
+No quiero una respuesta automática.
+
+Quiero que justifiques la decisión comparándola con el caso de `chatView`.
+
+Por ejemplo:
+
+- ¿el contenido interno ya describe completamente la acción?
+- ¿el `aria-label` aportaría información nueva?
+- ¿duplicaría información para usuarios de lectores de pantalla?
+- ¿cuál opción es la más accesible y por qué?
+
+Después de ese análisis, tomá una decisión y aplicala de forma consistente en todo el HTML.
+
+---
+
+# 2. Redactar el encabezado de Home
+
+Escribí un texto de bienvenida pensado para una demo.
+
+Debe invitar al usuario a elegir un personaje.
+
+Quiero:
+
+- un título;
+- un pequeño texto de 2 o 3 líneas.
+
+El tono debe ser amigable, atractivo y relacionado con el universo de One Piece, sin resultar exagerado.
+
+Debe dar la sensación de que el usuario está por comenzar una conversación con alguno de los personajes.
+
+---
+
+# 3. Implementar el HTML
+
+Una vez terminado el análisis anterior, generá el HTML semántico completo.
+
+La estructura debe contener:
+
+## Encabezado
+
+- título
+- texto introductorio
+
+## Contenedor principal
+
+Un grid con las tres tarjetas de personajes.
+
+Cada tarjeta será un:
+
+```html
+<button class="character-card">
+```
+
+Cada tarjeta debe mostrar:
+
+- avatar (emoji)
+- nombre
+- descripción
+
+Utilizá los datos reales definidos en `characters.js` para:
+
+- Luffy
+- Brook
+- Franky
+
+No inventes nuevos personajes.
+
+---
+
+## HTML
+
+- Utilizá HTML5 semántico.
+- Elegí nombres de clases claros y consistentes con el resto del proyecto.
+- No agregues estilos inline.
+- No agregues JavaScript.
+- No agregues atributos innecesarios.
+- La estructura debe quedar preparada para aplicar Mobile First posteriormente mediante CSS.
+
+---
+
+## Antes de generar el código
+
+1. Explicá la decisión tomada respecto al `aria-label`.
+2. Mostrá el texto de bienvenida que elegiste.
+3. Confirmá que únicamente vas a modificar `src/views/home.js`.
+4. Recién después generá el HTML completo.
+
+---
+
+## Al finalizar
+
+Explicá brevemente:
+
+- por qué elegiste esa estructura semántica;
+- por qué esa decisión de accesibilidad es la más adecuada;
+- cómo la estructura facilita la futura implementación del CSS Mobile First.
+
+//
+
+// Prompt para css//
+Estoy trabajando en un proyecto de SPA vanilla JS llamado "Chatea con tu personaje favorito" (chat con personajes de One Piece vía Gemini API). El HTML/JS ya está terminado y funcionando — routing, chat, historial, tests. Necesito ayuda con CSS: completar unos estilos pendientes, y además un restyling temático de toda la app.
+Contexto técnico que debés respetar
+
+Vanilla JS/CSS, sin frameworks, mobile-first real (base sin media queries, luego @media (min-width: 768px) y @media (min-width: 1024px)).
+Metodología BEM ya en uso (chat-header__toggle, character-card__avatar, etc.) — mantené esa convención en cualquier clase nueva.
+Custom properties ya definidas en :root (colores, sombras, radios, alturas) — reusalas o extendelas, no hardcodees valores nuevos sueltos.
+NO toques el HTML/JS generado dinámicamente (home.js, chatView.js, about.js, nav.js) salvo que sea estrictamente necesario para un ajuste de estructura menor — el foco es CSS.
+Los avatares de personajes son emojis (👒 Luffy, 💀 Brook, 🤖 Franky) — decisión tomada a propósito para evitar issues de copyright con imágenes oficiales de One Piece. Mantené ese enfoque: no uses imágenes reales de personajes/logo oficial de la franquicia en ningún asset nuevo.
+
+Tarea 1: completar CSS pendiente de la navegación global
+Ya existe un componente .app-nav (3 links: Inicio/Personajes/Info) que se integra en el header de /home, /about, y /chat (dentro de .chat-header__nav en este último caso). Falta:
+
+Estilos base de .app-nav con comportamiento bottom bar fija en mobile (position: fixed; bottom: 0), usando una nueva variable --bottom-nav-height: 56px.
+En @media (min-width: 768px), el nav deja de ser fijo y se integra en el flujo normal del header (position: static, fila horizontal).
+.chat-header__nav oculto en mobile (display: none), visible desde 768px (display: block) — para no duplicar la bottom bar con el nav integrado al header de chat.
+Estado activo del link actual con la clase .app-nav__link--active (ya la agrega el JS).
+Compensar el espacio que tapa la bottom bar fija en mobile con padding-bottom en el contenedor principal de cada vista:
+
+.chat → padding-bottom: var(--bottom-nav-height) en mobile, 0 en tablet+.
+.home-main → sumar var(--bottom-nav-height) al padding-bottom existente en mobile (usando calc()), volver al padding original en tablet+.
+.about (sección nueva, ver Tarea 2) → mismo criterio.
+
+
+
+Tarea 2: estilos para la vista /about (no tiene CSS todavía)
+Estructura HTML real generada por about.js:
+html<header class="app-header"><!-- nav acá adentro --></header>
+<section class="about">
+  <h1>Sobre este proyecto</h1>
+  <p><!-- descripción del proyecto --></p>
+  <h2>Sobre {nombre del personaje}</h2>
+  <p><!-- rol en la serie --></p>
+</section>
+Necesita layout legible, mobile-first, con jerarquía visual clara entre el bloque de proyecto y el bloque de personaje. Mismo criterio de padding-bottom que la Tarea 1 para compensar la bottom bar.
+Tarea 3: restyling temático "One Piece" de toda la app
+Actualmente la estética es genérica estilo WhatsApp (verde/blanco). Quiero un restyling que se sienta más temático de One Piece, sin usar imágenes con copyright. Ideas a considerar (elegí y aplicá con criterio de diseño, no literal):
+
+Paleta de colores inspirada en piratas/mar: azules profundos, dorados/amarillos tipo tesoro, rojos oxidados, en vez del verde WhatsApp actual.
+Tipografía o detalles decorativos sutiles que evoquen aventura/mar (sin exagerar ni comprometer legibilidad).
+Mantené el contraste y la legibilidad (no sacrifiques accesibilidad por temática).
+Los emojis de personajes (👒💀🤖) ya cumplen función de "ilustración" — no hace falta agregar más gráficos, podés apoyarte en ellos para reforzar el tema.
+Actualizá las custom properties de :root (nombres de variables de color pueden cambiar de significado, ej. --color-primary pasa a ser un dorado en vez de verde) mantendiendo la misma estructura de variables ya usada en todo el CSS, para no tener que tocar cada regla una por una.
+
+Priorizá que el cambio de paleta sea consistente en TODOS los componentes ya existentes (chat, sidebar, tarjetas de personaje, nav, mensajes) — no dejes componentes con la paleta vieja mientras otros tienen la nueva.
+Mostrame el diff completo o el archivo styles.css final antes de aplicar cambios masivos, para que pueda revisarlo.
+//
+
+//Prompt para Dark/Light Theme//
+
+Necesito agregar soporte de modo oscuro/claro al CSS de mi proyecto (SPA vanilla JS). La lógica de JS ya está implementada: se aplica el atributo data-theme="dark" o no se aplica (modo claro por default) al elemento <html>, mediante document.documentElement.setAttribute('data-theme', ...). Falta la parte de CSS.
+Contexto técnico
+
+Todas las variables de color ya están centralizadas como custom properties en :root (--color-bg, --color-surface, --color-text, --color-text-secondary, --color-header, --color-primary, --color-primary-dark, --color-user-msg, --color-character-msg, --color-input-bg, --color-input-border).
+Todo el CSS existente ya usa estas variables (no hay colores hardcodeados sueltos en las reglas de componentes) — la paleta actual es temática "One Piece" (dorados, azul marino, tonos pergamino).
+
+Tarea 1: definir la paleta de modo oscuro
+Crear un bloque [data-theme="dark"] { ... } que redefina las mismas variables con valores para modo oscuro, manteniendo la identidad temática (dorados como acento, pero sobre fondos oscuros en vez de claros). Criterios:
+
+Fondos oscuros pero no negro puro (ej. azul-gris muy oscuro), para mantener la sensación "nocturna" coherente con el resto de la paleta.
+El dorado de --color-primary puede aclararse levemente para mantener buen contraste sobre fondo oscuro.
+Verificar que el contraste texto/fondo sea legible (idealmente cercano a estándares WCAG AA) en los pares más usados: --color-text sobre --color-bg, y --color-text sobre --color-surface.
+Los mensajes de chat (--color-user-msg, --color-character-msg) necesitan variantes oscuras que sigan siendo distinguibles entre sí (actualmente son tonos claros diferenciados sutilmente).
+
+Tarea 2: estilos para el botón de toggle de tema
+Ya existe un botón .app-nav__theme-toggle, agregado como último elemento dentro de .app-nav (junto a los links Inicio/Personajes/Info), que contiene un SVG de 18x18px (ícono de sol o luna según el tema activo, intercambiado vía JS).
+Necesita:
+
+Tamaño similar a los otros ítems del nav, pero sin el mismo padding horizontal amplio de los links de texto — un botón compacto, ideal si es circular o cuadrado con border-radius sutil.
+Color de ícono consistente con el resto de los links del nav en cada contexto (recordar: el nav tiene colores distintos según esté en la bottom bar mobile con fondo oscuro, o integrado al header en tablet+, o específicamente dentro de .chat-header__nav con fondo oscuro propio — revisar las reglas existentes de .app-nav a en cada contexto y replicar esa lógica de color para el botón nuevo).
+Estado :hover con un fondo sutil, consistente con el :hover que ya tienen los links de texto del mismo nav.
+Debe funcionar visualmente bien tanto en la bottom bar mobile como integrado en el header en tablet+ — verificar en ambos breakpoints.
+
+Tarea 3: transición suave al cambiar de tema
+Agregar una transición suave (transition: background-color 0.2s, color 0.2s o similar) a nivel de body o los contenedores principales, para que el cambio de tema no sea un salto brusco sino una transición gradual.
+//

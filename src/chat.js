@@ -29,7 +29,8 @@ export async function sendMessage(content, currentCharacter, messagesContainer) 
     })
 
     if (!response.ok) {
-      throw new Error('Fallo la respuesta del servidor')
+      console.error(`Error del servidor: ${response.status} ${response.statusText}`)
+      throw new Error('server')
     }
 
     const data = await response.json()
@@ -44,7 +45,8 @@ export async function sendMessage(content, currentCharacter, messagesContainer) 
 
   } catch (error) {
     console.error('Error al enviar mensaje:', error)
-    renderErrorMessage(messagesContainer)
+    const isNetworkError = error instanceof TypeError
+    renderErrorMessage(messagesContainer, isNetworkError)
   } finally {
     typingIndicator.classList.add('is-hidden')
   }
@@ -109,10 +111,12 @@ export function renderMessage(message, currentCharacter, container) {
   container.appendChild(messageElement)
   container.scrollTop = container.scrollHeight
 }
-export function renderErrorMessage(container) {
+export function renderErrorMessage(container, isNetworkError = false) {
     const errorElement = document.createElement('div')
     errorElement.className = 'chat-message chat-message--error'
-    errorElement.textContent = 'Error al enviar el mensaje. Por favor, intenta de nuevo.'
+    errorElement.textContent = isNetworkError
+      ? 'No se pudo conectar. Revisá tu conexión a internet e intenta de nuevo.'
+      : 'Error al enviar el mensaje. Por favor, intenta de nuevo.'
     container.appendChild(errorElement)
     container.scrollTop = container.scrollHeight
 }
